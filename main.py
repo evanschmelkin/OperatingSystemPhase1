@@ -5,6 +5,8 @@ def show_menu():
     print("1. Check the PCB")
     print("2. Show the PCB")
     print("3. Add to the PCB")
+    print("4. Save as a new file")
+    print("5. Exit")
     #simple console line menu so that i dont need to make a gui
 
 def check(data):
@@ -20,6 +22,27 @@ def check(data):
 def show(data):
     print(data)
     #this function was very simple, im just printing the pandas database
+
+def add(data):
+    data.loc[len(data)] = [100, 3, 2, 1, 4, 5]
+
+    #print(data) #commenting out this print function, but my proof of concept
+    #is that now i have an empty row at the last row
+    #so in order to add to it, the row number will be last row
+    #print(data.iloc[-1, 0]) #YIPEE, THIS WORKS OKAY SO YOU ARE ABLE TO CALL EACH SQUARE OF THE ARRAY WTIH THIS SORT OF FUNCTION
+
+    data.iloc[-1, 0] = int(input("Enter PCB ID: "))
+    data.iloc[-1, 1] = int(input("Enter PCB Memory: "))
+    data.iloc[-1, 2] = int(input("Enter PCB Arrival Time: "))
+    data.iloc[-1, 3] = int(input("Enter PCB CPU Required: "))
+    data.iloc[-1, 4] = int(input("Enter PCB Quantum: "))
+    data.iloc[-1, 5] = int(input("Enter PCB ContextSwitch Penalty: ")) #amazing, these five lines work from
+    #basic principles, im actually so happy i could code this
+
+
+def save(data):
+    save_name = input("Enter save file name INCLUDING file extension: ") #another user input line, this time for saving the file
+    data.to_csv(f'{save_name}', sep=' ')
 
 
 
@@ -37,6 +60,14 @@ def main():
             #than just True or False so that is why it is here
         elif choice == 2:
             show(data)
+        elif choice == 3:
+            add(data)
+
+        elif choice == 4:
+            save(data)
+
+        elif choice == 5:
+            exit()
         else:
             print("Invalid choice. Please try again.") #error correction
 
