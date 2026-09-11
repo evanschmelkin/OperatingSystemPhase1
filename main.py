@@ -1,18 +1,34 @@
-# This is a sample Python script.
+import pandas as pd
+import os
+def show_menu():
+    print("\n===== Main Menu =====")
+    print("1. Check the data")
+    print("2. Show the data")
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+def check(data):
+    if all(data['id'] > 0) and data['id'].is_unique and all(data['memory'] > 0) and all(data['arrival_time'] >= 0) and all(data['CPU_required'] > 0):
+        return True
+    else:
+        return False
+
+def show(data):
+    print(data)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def main():
+    file_name = input("Enter file name INCLUDING file extension: ") #user input line
+    data = pd.read_csv(f'{file_name}', sep=' ', names=['id', 'memory', 'arrival_time', 'CPU_required', 'Quantum', 'ContextSwitch_Penalty'])
+    #reads the file that the user provided and saves the columns with easy to remember and understand names
 
+    while True:
+        show_menu()
+        choice = int(input("Enter your choice: "))
+        if choice == 1:
+            result  = check(data)
+            print("Valid data!" if result else "Invalid data.")
+        elif choice == 2:
+            show(data)
+        else:
+            print("Invalid choice. Please try again.")
 
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+main()
