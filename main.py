@@ -67,7 +67,7 @@ def main():
             save(data)
 
         elif choice == 5:
-            exit()
+            exit() #built in exit function, nice to not have to write another function!
         else:
             print("Invalid choice. Please try again.") #error correction
 
