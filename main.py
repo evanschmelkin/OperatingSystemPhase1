@@ -2,17 +2,25 @@ import pandas as pd
 import os
 def show_menu():
     print("\n===== Main Menu =====")
-    print("1. Check the data")
-    print("2. Show the data")
+    print("1. Check the PCB")
+    print("2. Show the PCB")
+    print("3. Add to the PCB")
+    #simple console line menu so that i dont need to make a gui
 
 def check(data):
-    if all(data['id'] > 0) and data['id'].is_unique and all(data['memory'] > 0) and all(data['arrival_time'] >= 0) and all(data['CPU_required'] > 0):
+    if all(data['id'] > 0) and data['id'].is_unique and all(data['memory'] > 0) and all(data['arrival_time'] >= 0) and all(data['CPU_required'] > 0) and all(data['Quantum'] > 0) and all(data['ContextSwitch_Penalty'] > 0) and (data % 1 == 0).all().all():
+        #this is a very long if statement that very simply makes sure that all of the values
+        #in all of the columns of the dataframe are valid
+        #also the final and makes sure that all values are integers
         return True
+
     else:
         return False
 
 def show(data):
     print(data)
+    #this function was very simple, im just printing the pandas database
+
 
 
 def main():
@@ -25,10 +33,11 @@ def main():
         choice = int(input("Enter your choice: "))
         if choice == 1:
             result  = check(data)
-            print("Valid data!" if result else "Invalid data.")
+            print("Valid data!" if result else "Sorry, invalid data :(") #this is a lot more user friendly
+            #than just True or False so that is why it is here
         elif choice == 2:
             show(data)
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Please try again.") #error correction
 
 main()
