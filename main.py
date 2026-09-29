@@ -42,7 +42,7 @@ def add(data):
 
 def save(data):
     save_name = input("Enter save file name INCLUDING file extension: ") #another user input line, this time for saving the file
-    data.to_csv(f'{save_name}', sep=' ')
+    data.to_csv(f'{save_name}', index=False, sep=' ')
 
 
 
@@ -50,7 +50,6 @@ def main():
     file_name = input("Enter file name INCLUDING file extension: ") #user input line
     data = pd.read_csv(f'{file_name}', sep=' ', names=['id', 'memory', 'arrival_time', 'CPU_required', 'Quantum', 'ContextSwitch_Penalty'])
     #reads the file that the user provided and saves the columns with easy to remember and understand names
-
     while True:
         show_menu()
         choice = int(input("Enter your choice: "))
