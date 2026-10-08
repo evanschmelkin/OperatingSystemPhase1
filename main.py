@@ -93,24 +93,23 @@ def runsjf(data):
     turnaround = []
 
     while not data.empty:
-        # only consider processes that have already arrived
+        #only consider processes that have already arrived
         ready = data[data['arrival_time'] <= count]
 
-        # if nobody has arrived, the CPU is idle: look at the earliest arrival(s)
+        #if nobody has arrived, the CPU is idle: look at the earliest arrival(s)
         if ready.empty:
             ready = data[data['arrival_time'] == data['arrival_time'].min()]
 
-        # shortest CPU time among the ready processes
+        #shortest CPU time among the ready processes
         curr = ready.loc[ready['CPU_required'].idxmin()]
         TripTimes.append(curr['CPU_required'])
 
-        # start when the CPU is free AND the process has arrived
+        #start when the CPU is free AND the process has arrived
         start = max(count, curr['arrival_time'])
         count = start + curr['CPU_required']
 
         data = data.drop(curr.name)
 
-        # FIXED: finish minus arrival
         turnaround.append(count - curr['arrival_time'])
 
         print("Current Process")
