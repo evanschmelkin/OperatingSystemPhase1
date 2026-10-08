@@ -6,7 +6,9 @@ def show_menu():
     print("2. Show the PCB")
     print("3. Add to the PCB")
     print("4. Save as a new file")
-    print("5. Exit")
+    print("5. Run in FCFS")
+    print("6. Run in SJF")
+    print("7. Exit")
     #simple console line menu so that i dont need to make a gui
 
 def check(data):
@@ -39,6 +41,86 @@ def add(data):
     data.iloc[-1, 5] = int(input("Enter PCB ContextSwitch Penalty: ")) #amazing, these five lines work from
     #basic principles, im actually so happy i could code this
 
+def runfcfs(data):
+    #print(data)
+    #print("poopsock")
+    if data.empty:
+        print("Sorry, you have no data")
+        return
+
+    count = 0
+
+    TripTimes = []
+    turnaround = []
+
+
+    while not data.empty:
+        #first we find the smallest arrival time required
+        curr = data.loc[data['arrival_time'].idxmin()]
+        TripTimes.append(curr['arrival_time'])
+
+        #make sure it starts after the previous thing has ended
+        start = max(count, curr['arrival_time'])
+        count = start + curr['CPU_required']
+
+        #remove the smallest arrival time required entire row from the dataframe
+        data = data.drop(curr.name)
+
+        #turnaround time
+        turnaround.append(count - start)
+
+        #printing the results
+        print("Current Process")
+        print(curr)
+
+
+        #start and finish
+        print("Starting Time", start)
+        print("Finishing Time", count)
+
+        print("Turnaround Time", turnaround[-1])
+
+        print("Running Average Turnaround Time, based on turnarounds so far", sum(turnaround) / len(turnaround))
+
+
+def runsjf(data):
+    if data.empty:
+        print("Sorry, you have no data")
+        return
+
+    count = 0
+
+    TripTimes = []
+    turnaround = []
+
+
+    while not data.empty:
+        #first we find the lowest cpu cycles required
+        curr = data.loc[data['CPU_required'].idxmin()]
+        TripTimes.append(curr['CPU_required'])
+
+        #make sure it starts after the previous thing has ended
+        start = max(count, curr['arrival_time'])
+        count = start + curr['CPU_required']
+
+        #remove the smallest cpu cycles required from the dataframe
+        data = data.drop(curr.name)
+
+        #turnaround time
+        turnaround.append(count - start)
+
+        #printing the results
+        print("Current Process")
+        print(curr)
+
+
+        #start and finish
+        print("Starting Time", start)
+        print("Finishing Time", count)
+
+        print("Turnaround Time", turnaround[-1])
+
+        print("Running Average Turnaround Time, based on turnarounds so far", sum(turnaround) / len(turnaround))
 
 def save(data):
     save_name = input("Enter save file name INCLUDING file extension: ") #another user input line, this time for saving the file
@@ -66,7 +148,13 @@ def main():
             save(data)
 
         elif choice == 5:
-            exit() #built in exit function, nice to not have to write another function!
+            runfcfs(data)
+
+        elif choice == 6:
+            runsjf(data)
+
+        elif choice == 7:
+            exit(0)
         else:
             print("Invalid choice. Please try again.") #error correction
 

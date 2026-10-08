@@ -1,0 +1,17 @@
+p.id = integer - (this is the process identifier, should be unique)
+p.memory = integer - (this is the memory needed by the process, should be >0)
+p.arrival_time = integer - (this is used to hold the arrival time of the process, it can be >=0)
+p.CPU_required = integer - (this is used to hold the amount of CPU time the process will require to complete, it should be >0)
+p.Quantum = integer - (this is used to hold the size of the quantum, it will be the same for all processes >0)
+p.ContextSwitch_Penalty= integer - (this is used to hold the cost of switching to a different process, it will be the same for all processes >0)
+
+Note: in add data sets you have a total memory of 25000 to allocate from.  Please assume plenty of memory for Phase 2; so don't worry about memory requirements of the processes.  In addition for Phase 2 the algorithms are non-preemptive (jobs run to completion once started).  We can also ignore the ContextSwitch_Penalty for Phase 2 as well.  That will become a factor for preemptive algorithms and future phases.
+
+
+Test Data Set - use this for proof ---------------------------------
+0 2000 0 2 3 1
+1 4000 1 2 3 1
+2 12000 2 1 3 1
+3 500 3 3 3 1
+4 500 3 4 3 1
+
