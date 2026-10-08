@@ -80,7 +80,7 @@ def runfcfs(data):
 
         print("Turnaround Time", turnaround[-1])
 
-        print("Running Average Turnaround Time, based on turnarounds so far", sum(turnaround) / len(turnaround))
+    print("Average Turnaround Time", sum(turnaround) / len(turnaround))
 
 
 def runsjf(data):
@@ -89,38 +89,37 @@ def runsjf(data):
         return
 
     count = 0
-
     TripTimes = []
     turnaround = []
 
-
     while not data.empty:
-        #first we find the lowest cpu cycles required
-        curr = data.loc[data['CPU_required'].idxmin()]
+        # only consider processes that have already arrived
+        ready = data[data['arrival_time'] <= count]
+
+        # if nobody has arrived, the CPU is idle: look at the earliest arrival(s)
+        if ready.empty:
+            ready = data[data['arrival_time'] == data['arrival_time'].min()]
+
+        # shortest CPU time among the ready processes
+        curr = ready.loc[ready['CPU_required'].idxmin()]
         TripTimes.append(curr['CPU_required'])
 
-        #make sure it starts after the previous thing has ended
+        # start when the CPU is free AND the process has arrived
         start = max(count, curr['arrival_time'])
         count = start + curr['CPU_required']
 
-        #remove the smallest cpu cycles required from the dataframe
         data = data.drop(curr.name)
 
-        #turnaround time
-        turnaround.append(count - start)
+        # FIXED: finish minus arrival
+        turnaround.append(count - curr['arrival_time'])
 
-        #printing the results
         print("Current Process")
         print(curr)
-
-
-        #start and finish
         print("Starting Time", start)
         print("Finishing Time", count)
-
         print("Turnaround Time", turnaround[-1])
 
-        print("Running Average Turnaround Time, based on turnarounds so far", sum(turnaround) / len(turnaround))
+    print("Average Turnaround Time", sum(turnaround) / len(turnaround))
 
 def save(data):
     save_name = input("Enter save file name INCLUDING file extension: ") #another user input line, this time for saving the file
