@@ -51,10 +51,11 @@ def runfcfs(data):
     count = 0
 
     TripTimes = []
+    #turnaround time is stored as an array so that it is then easy to calculate average turnaround time
     turnaround = []
 
 
-    while not data.empty:
+    while not data.empty: #i used a while loop because it seemed the most logical for this assignment
         #first we find the smallest arrival time required
         curr = data.loc[data['arrival_time'].idxmin()]
         TripTimes.append(curr['arrival_time'])
@@ -78,8 +79,9 @@ def runfcfs(data):
         print("Starting Time", start)
         print("Finishing Time", count)
 
+        #the turnaround time to be printed is whatever is the final turnaround time in the array
         print("Turnaround Time", turnaround[-1])
-
+    #Vvery very simple way to calculate an average, which is therefore da best way to calculate an average!
     print("Average Turnaround Time", sum(turnaround) / len(turnaround))
 
 
@@ -92,7 +94,7 @@ def runsjf(data):
     TripTimes = []
     turnaround = []
 
-    while not data.empty:
+    while not data.empty: #i used a while loop because it seemed the most logical for this assignment
         #only consider processes that have already arrived
         ready = data[data['arrival_time'] <= count]
 
@@ -116,8 +118,11 @@ def runsjf(data):
         print(curr)
         print("Starting Time", start)
         print("Finishing Time", count)
+
+        # the turnaround time to be printed is whatever is the final turnaround time in the array
         print("Turnaround Time", turnaround[-1])
 
+    #Vvery very simple way to calculate an average, which is therefore da best way to calculate an average!
     print("Average Turnaround Time", sum(turnaround) / len(turnaround))
 
 def save(data):
