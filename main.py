@@ -68,7 +68,7 @@ def runfcfs(data):
         data = data.drop(curr.name)
 
         #turnaround time
-        turnaround.append(count - start)
+        turnaround.append(count - curr['arrival_time']) #this was the fix!
 
         #printing the results
         print("Current Process")
@@ -82,7 +82,8 @@ def runfcfs(data):
         #the turnaround time to be printed is whatever is the final turnaround time in the array
         print("Turnaround Time", turnaround[-1])
     #Vvery very simple way to calculate an average, which is therefore da best way to calculate an average!
-    print("Average Turnaround Time", sum(turnaround) / len(turnaround))
+    print("Average Turnaround Time", sum(turnaround) / len(turnaround)) #this one doesn't work, should be 4.4
+    #works now
 
 
 def runsjf(data):
@@ -123,7 +124,7 @@ def runsjf(data):
         print("Turnaround Time", turnaround[-1])
 
     #Vvery very simple way to calculate an average, which is therefore da best way to calculate an average!
-    print("Average Turnaround Time", sum(turnaround) / len(turnaround))
+    print("Average Turnaround Time", sum(turnaround) / len(turnaround)) #this one works
 
 def save(data):
     save_name = input("Enter save file name INCLUDING file extension: ") #another user input line, this time for saving the file
